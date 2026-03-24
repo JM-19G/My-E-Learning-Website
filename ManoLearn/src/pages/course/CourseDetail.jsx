@@ -1,145 +1,155 @@
 // src/pages/course/CourseDetail.jsx
-import { useParams, useNavigate } from 'react-router-dom';
-import { courses } from '../../data/courses.js'; 
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import courses from '../../data/courses';
 
-export default function CourseDetail() {
-  const { courseId } = useParams();
-  const navigate = useNavigate();
+const CourseDetail = () => {
+  const { id } = useParams();
+  const course = courses.find(c => c.id === parseInt(id));
 
-  const course = courses.find(c => c.id === Number(courseId));
+  const [enrolled, setEnrolled] = useState(false);
 
   if (!course) {
     return (
-      <div style={{ padding: '60px 20px', textAlign: 'center' }}>
-        <h1 style={{ color: '#d32f2f' }}>Course not found</h1>
-        <button
-          onClick={() => navigate('/catalog')}
-          style={{
-            marginTop: '20px',
-            padding: '12px 24px',
-            background: '#4caf50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer'
-          }}
-        >
-          Back to Courses
-        </button>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-800">Course Not Found</h2>
+          <p className="text-gray-500 mt-4">The course you're looking for doesn't exist.</p>
+          <Link to="/courses" className="mt-6 inline-block bg-emerald-600 text-white px-8 py-3 rounded-2xl font-medium">
+            Back to Courses
+          </Link>
+        </div>
       </div>
     );
   }
 
+  const handleEnroll = () => {
+    setEnrolled(true);
+    alert(`🎉 Successfully enrolled in "${course.title}"!\nYou can now access all lessons.`);
+  };
+
   return (
-    <div style={{ padding: '40px 20px', maxWidth: '1100px', margin: '0 auto' }}>
-      <button
-        onClick={() => navigate('/catalog')}
-        style={{
-          marginBottom: '24px',
-          padding: '10px 20px',
-          background: '#e0e0e0',
-          border: 'none',
-          borderRadius: '6px',
-          cursor: 'pointer'
-        }}
-      >
-        ← Back to Catalog
-      </button>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Banner */}
+      <div className="bg-gradient-to-br from-emerald-700 to-teal-700 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row gap-10 items-center">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                {course.category}
+              </span>
+              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                {course.level}
+              </span>
+            </div>
 
-      <div style={{
-        background: 'white',
-        borderRadius: '12px',
-        overflow: 'hidden',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
-      }}>
-        <img
-          src={course.thumbnail}
-          alt={course.title}
-          style={{ width: '100%', height: '300px', objectFit: 'cover' }}
-        />
-
-        <div style={{ padding: '32px' }}>
-          <h1 style={{ color: '#1b5e20', margin: '0 0 16px' }}>
-            {course.title}
-          </h1>
-
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
-            <span style={{
-              background: '#e8f5e9',
-              color: '#2e7d32',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              fontSize: '0.9rem'
-            }}>
-              {course.level}
-            </span>
-            <span style={{
-              background: '#e3f2fd',
-              color: '#1565c0',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              fontSize: '0.9rem'
-            }}>
-              {course.sector}
-            </span>
+            <h1 className="text-5xl font-bold leading-tight mb-6">{course.title}</h1>
+            
+            <div className="flex items-center gap-6 text-lg">
+              <div> {course.instructor}</div>
+              <div> {course.duration}</div>
+              <div> {course.lessonsCount || course.lessons?.length || 0} lessons</div>
+            </div>
           </div>
 
-          <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#333', marginBottom: '32px' }}>
-            {course.description}
-          </p>
+          <div className="flex-shrink-0 text-center lg:text-right">
+            <div className="text-8xl mb-6">{course.image}</div>
+            <div className="text-4xl font-bold">Free</div>
+            <p className="text-emerald-200">for everyone</p>
+          </div>
+        </div>
+      </div>
 
-          <h2 style={{ color: '#2e7d32', margin: '0 0 20px' }}>Lessons</h2>
+      <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {/* Main Content */}
+        <div className="lg:col-span-2 space-y-12">
+          <div>
+            <h2 className="text-3xl font-semibold mb-4">About This Course</h2>
+            <p className="text-gray-700 leading-relaxed text-lg">
+              {course.description}
+            </p>
+          </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {course.lessons.map(lesson => (
-              <Link
-                key={lesson.id}
-                to={`/courses/${course.id}/lessons/${lesson.id}`}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '16px 20px',
-                  background: '#f5f5f5',
-                  borderRadius: '8px',
-                  textDecoration: 'none',
-                  color: '#333',
-                  transition: 'background 0.2s'
-                }}
-                onMouseOver={e => e.currentTarget.style.background = '#e8f5e9'}
-                onMouseOut={e => e.currentTarget.style.background = '#f5f5f5'}
-              >
-                <div>
-                  <strong>{lesson.title}</strong>
-                  <div style={{ color: '#666', fontSize: '0.9rem', marginTop: '4px' }}>
-                    {lesson.duration}
+          {/* Lessons List */}
+          <div>
+            <h2 className="text-3xl font-semibold mb-6 flex items-center gap-3">
+              Course Lessons
+              <span className="text-base font-normal text-gray-500">({course.lessons?.length || 0})</span>
+            </h2>
+
+            <div className="space-y-4">
+              {course.lessons && course.lessons.length > 0 ? (
+                course.lessons.map((lesson, index) => (
+                  <div
+                    key={lesson.id}
+                    className="bg-white rounded-2xl p-6 flex items-center justify-between hover:shadow-md transition group"
+                  >
+                    <div className="flex items-center gap-5">
+                      <div className="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold">
+                        {index + 1}
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">{lesson.title}</h4>
+                        <p className="text-sm text-gray-500">{lesson.duration}</p>
+                      </div>
+                    </div>
+                    <Link
+                      to={`/lesson/${course.id}/${lesson.id}`}
+                      className="text-emerald-600 hover:text-emerald-700 font-medium group-hover:translate-x-1 transition"
+                    >
+                      Watch →
+                    </Link>
                   </div>
+                ))
+              ) : (
+                <div className="bg-white rounded-3xl p-12 text-center">
+                  <p className="text-gray-500">Lessons will be added soon. Stay tuned!</p>
                 </div>
-                <span style={{ color: '#4caf50' }}>▶</span>
-              </Link>
-            ))}
+              )}
+            </div>
           </div>
+        </div>
 
-          {/* We'll add "Enroll" button later – for now just browse lessons */}
-          <div style={{ marginTop: '40px', textAlign: 'center' }}>
-            <button
-              style={{
-                padding: '14px 40px',
-                background: '#4caf50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '1.1rem',
-                cursor: 'pointer'
-              }}
-              onClick={() => alert('Enrollment feature coming soon!')}
-            >
-              Enroll in this Course
-            </button>
+        {/* Sidebar */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-3xl p-8 sticky top-8 shadow-sm">
+            <div className="text-center mb-8">
+              <div className="text-5xl mb-4">{course.image}</div>
+              <div className="text-4xl font-bold text-emerald-700">Free</div>
+            </div>
+
+            {!enrolled ? (
+              <button
+                onClick={handleEnroll}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-2xl text-lg transition mb-4"
+              >
+                Enroll Now - It's Free
+              </button>
+            ) : (
+              <div className="w-full bg-emerald-100 text-emerald-700 font-semibold py-4 rounded-2xl text-center text-lg">
+                 You are enrolled!
+              </div>
+            )}
+
+            <div className="mt-8 space-y-6 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Rating</span>
+                <span className="font-medium"> {course.rating}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Students Enrolled</span>
+                <span className="font-medium">{course.students?.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Duration</span>
+                <span className="font-medium">{course.duration}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default CourseDetail;
