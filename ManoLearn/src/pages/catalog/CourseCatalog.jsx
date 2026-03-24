@@ -1,7 +1,7 @@
 // src/pages/catalog/CourseCatalog.jsx
 import { Link } from 'react-router-dom';
 import CourseCard from '../../components/common/CourseCard';
-import courses from '../../data/courses';  
+import courses from '../../data/courses';   // ← Default import
 
 const CourseCatalog = () => {
   return (
@@ -19,13 +19,13 @@ const CourseCatalog = () => {
         </div>
 
         <div className="mt-6 md:mt-0">
-          <div className="relative w-80">
+          <div className="relative w-full max-w-md">
             <input
               type="text"
-              placeholder="Search courses..."
-              className="w-full pl-12 pr-5 py-4 bg-white border border-gray-200 rounded-3xl focus:outline-none focus:border-emerald-500 shadow-sm"
+              placeholder="Search courses by title or category..."
+              className="w-full pl-12 pr-5 py-4 bg-white border border-gray-200 rounded-3xl focus:outline-none focus:border-emerald-500 shadow-sm text-base"
             />
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl">🔍</span>
           </div>
         </div>
       </div>
@@ -37,12 +37,11 @@ const CourseCatalog = () => {
         ))}
       </div>
 
-      {/* Empty state (in case no courses) */}
       {courses.length === 0 && (
         <div className="text-center py-20">
           <div className="text-6xl mb-4">🌾</div>
-          <h3 className="text-2xl font-semibold text-gray-700">No courses yet</h3>
-          <p className="text-gray-500 mt-2">We're adding more courses soon!</p>
+          <h3 className="text-2xl font-semibold text-gray-700">No courses found</h3>
+          <p className="text-gray-500 mt-2">We're adding more exciting courses soon!</p>
         </div>
       )}
     </div>
