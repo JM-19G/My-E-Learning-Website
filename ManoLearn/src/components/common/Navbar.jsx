@@ -17,36 +17,32 @@ const Navbar = () => {
           <div className="w-10 h-10 bg-emerald-600 rounded-2xl flex items-center justify-center text-2xl">
             🌱
           </div>
-          <div>
-            <span className="font-bold text-2xl text-emerald-800">ManoLearn</span>
-          </div>
+          <span className="font-bold text-2xl text-emerald-800">ManoLearn</span>
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               className={`font-medium transition-colors hover:text-emerald-600 ${
-                location.pathname === link.path 
-                  ? 'text-emerald-600 font-semibold' 
-                  : 'text-gray-600'
+                location.pathname === link.path ? 'text-emerald-600 font-semibold' : 'text-gray-600'
               }`}
             >
               {link.name}
             </Link>
           ))}
-
-          <Link
-            to="/login"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-2xl font-medium transition"
-          >
-            Logout
-          </Link>
         </div>
+
+        <Link
+          to="/login"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-2xl font-medium transition text-sm"
+        >
+          Logout
+        </Link>
       </div>
     </nav>
   );
 };
 
-export default Navbar;   
+export default Navbar;
