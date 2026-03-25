@@ -2,11 +2,14 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
 import courses from '../../data/courses';
+import useProgress from '../../hooks/UseProgress';
+// import { useProgress } from '../../hooks/useProgress';
 
 const CourseDetail = () => {
   const { id } = useParams();
   const course = courses.find(c => c.id === parseInt(id));
   const [enrolled, setEnrolled] = useState(false);
+  const { progress, markLessonComplete } = useProgress(id);   // Using the hook
 
   if (!course) {
     return (
@@ -23,12 +26,12 @@ const CourseDetail = () => {
 
   const handleEnroll = () => {
     setEnrolled(true);
-    alert(`Successfully enrolled in "${course.title}"`);
+    alert(`✅ Successfully enrolled in "${course.title}"`);
   };
 
   return (
     <div className="bg-gray-50 min-h-screen pb-12">
-      {/* Hero Section */}
+      {/* Hero */}
       <div className="bg-emerald-900 text-white">
         <div className="max-w-7xl mx-auto px-6 py-16 lg:py-20 flex flex-col lg:flex-row gap-12 items-center">
           <div className="flex-1">
@@ -106,24 +109,20 @@ const CourseDetail = () => {
                 </div>
               )}
 
-              <div className="mt-10 space-y-5 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Instructor</span>
-                  <span className="font-medium">{course.instructor}</span>
+              {progress > 0 && (
+                <div className="mt-8">
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-gray-500">Your Progress</span>
+                    <span className="font-medium">{progress}%</span>
+                  </div>
+                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-emerald-600 rounded-full transition-all" 
+                      style={{ width: `${progress}%` }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Duration</span>
-                  <span className="font-medium">{course.duration}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Rating</span>
-                  <span className="font-medium">★ {course.rating}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Enrolled Students</span>
-                  <span className="font-medium">{course.students?.toLocaleString()}</span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
