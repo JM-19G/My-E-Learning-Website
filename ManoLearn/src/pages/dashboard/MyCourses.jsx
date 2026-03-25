@@ -1,58 +1,60 @@
 // src/pages/dashboard/MyCourses.jsx
 import { Link } from 'react-router-dom';
-import courses from '../../data/courses';
 import { useState, useEffect } from 'react';
+import courses from '../../data/courses';
 
 const MyCourses = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
 
-  // Simulate enrolled courses 
   useEffect(() => {
-    // For demo, mark first 2 courses as enrolled
-    setEnrolledCourses(courses.slice(0, 2));
+    // Simulate enrolled courses (first 3 for demo)
+    setEnrolledCourses(courses.slice(0, 3));
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
-      <div className="flex justify-between items-end mb-10">
+    <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="flex justify-between items-end mb-12">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900">My Courses</h1>
-          <p className="text-gray-600 mt-2">Continue your learning journey</p>
+          <h1 className="text-5xl font-bold tracking-tight text-gray-900">My Courses</h1>
+          <p className="text-gray-600 mt-3 text-xl">Continue where you left off</p>
         </div>
         <Link
           to="/courses"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl font-medium transition"
+          className="px-7 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-medium rounded-2xl transition"
         >
-          Browse More Courses
+          Browse All Courses
         </Link>
       </div>
 
       {enrolledCourses.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {enrolledCourses.map((course) => (
-            <div key={course.id} className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
-              <div className="h-48 bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-7xl">
+            <div
+              key={course.id}
+              className="bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300"
+            >
+              <div className="h-56 bg-gradient-to-br from-emerald-700 to-teal-700 flex items-center justify-center text-8xl">
                 {course.image}
               </div>
 
-              <div className="p-6">
-                <h3 className="font-semibold text-xl mb-2 line-clamp-2">{course.title}</h3>
-                <p className="text-sm text-gray-500 mb-4">{course.instructor}</p>
+              <div className="p-8">
+                <h3 className="font-semibold text-2xl leading-tight mb-3">{course.title}</h3>
+                <p className="text-gray-500 mb-6">{course.instructor}</p>
 
-                {/* Progress Bar */}
-                <div className="mb-5">
-                  <div className="flex justify-between text-xs mb-1.5">
-                    <span className="text-gray-500">Progress</span>
-                    <span className="font-medium text-emerald-600">45%</span>
+                {/* Progress */}
+                <div className="mb-7">
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-gray-500">Your Progress</span>
+                    <span className="font-medium text-emerald-700">45%</span>
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-600 rounded-full w-[45%]"></div>
+                    <div className="h-full w-[45%] bg-emerald-600 rounded-full"></div>
                   </div>
                 </div>
 
                 <Link
                   to={`/course/${course.id}`}
-                  className="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-2xl font-medium transition"
+                  className="block w-full text-center bg-emerald-700 hover:bg-emerald-800 text-white py-4 rounded-2xl font-medium transition"
                 >
                   Continue Learning
                 </Link>
@@ -61,15 +63,17 @@ const MyCourses = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20">
-          <div className="text-6xl mb-6">🌱</div>
-          <h3 className="text-2xl font-semibold text-gray-700">No enrolled courses yet</h3>
-          <p className="text-gray-500 mt-3 mb-8">Start your learning journey by enrolling in a course</p>
+        <div className="text-center py-24 bg-white rounded-3xl border border-gray-100">
+          <div className="text-7xl mb-6">🌱</div>
+          <h3 className="text-3xl font-semibold text-gray-900 mb-3">No courses yet</h3>
+          <p className="text-gray-600 mb-8 max-w-md mx-auto">
+            Enroll in courses to start tracking your progress and learning journey.
+          </p>
           <Link
             to="/courses"
-            className="inline-block bg-emerald-600 text-white px-8 py-4 rounded-2xl font-medium"
+            className="inline-block bg-emerald-700 text-white px-10 py-4 rounded-2xl font-medium"
           >
-            Browse Courses
+            Explore Courses
           </Link>
         </div>
       )}

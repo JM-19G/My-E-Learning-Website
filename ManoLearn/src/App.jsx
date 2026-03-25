@@ -11,11 +11,11 @@ import Footer from './components/common/Footer';
 function App() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Navbar - will be hidden on Login page */}
       <Routes>
+        {/* Public Route - Login */}
         <Route path="/login" element={<Login />} />
-        
-        {/* Protected routes with Navbar + Footer */}
+
+        {/* Protected Routes with Navbar & Footer */}
         <Route
           path="/*"
           element={
