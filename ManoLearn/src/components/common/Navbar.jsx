@@ -11,22 +11,27 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white border-b border-emerald-100 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-emerald-600 rounded-2xl flex items-center justify-center text-2xl">
-            🌱
+          <div className="w-9 h-9 bg-emerald-700 rounded-2xl flex items-center justify-center text-white text-2xl font-semibold">
+            M
           </div>
-          <span className="font-bold text-2xl text-emerald-800">ManoLearn</span>
+          <div>
+            <span className="font-bold text-2xl tracking-tight text-gray-900">ManoLearn</span>
+            <p className="text-[10px] text-emerald-600 -mt-1">Agriculture Academy</p>
+          </div>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10 text-sm font-medium">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`font-medium transition-colors hover:text-emerald-600 ${
-                location.pathname === link.path ? 'text-emerald-600 font-semibold' : 'text-gray-600'
+              className={`transition-colors hover:text-emerald-700 ${
+                location.pathname === link.path 
+                  ? 'text-emerald-700 font-semibold' 
+                  : 'text-gray-600'
               }`}
             >
               {link.name}
@@ -36,7 +41,7 @@ const Navbar = () => {
 
         <Link
           to="/login"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-2xl font-medium transition text-sm"
+          className="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-medium rounded-2xl transition"
         >
           Logout
         </Link>
