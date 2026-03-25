@@ -1,8 +1,7 @@
 // src/pages/lesson/LessonPlayer.jsx
 import { useParams, Link } from 'react-router-dom';
 import courses from '../../data/courses';
-import useProgress from '../../hooks/UseProgress';
-// import { useProgress } from '../../hooks/useProgress';
+import { useProgress } from '../../hooks/UseProgress';
 
 const LessonPlayer = () => {
   const { courseId, lessonId } = useParams();
@@ -15,9 +14,7 @@ const LessonPlayer = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-gray-900">Lesson Not Found</h2>
-          <Link to="/courses" className="mt-6 text-emerald-700 hover:underline inline-block">
-            ← Return to Courses
-          </Link>
+          <Link to="/courses" className="mt-6 text-emerald-700 hover:underline">← Return to Courses</Link>
         </div>
       </div>
     );
@@ -53,7 +50,7 @@ const LessonPlayer = () => {
               </div>
               <button
                 onClick={() => markLessonComplete(parseInt(lessonId))}
-                className="px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-2xl text-sm font-medium transition"
+                className="px-8 py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-2xl text-sm font-medium transition"
               >
                 Mark as Complete
               </button>
