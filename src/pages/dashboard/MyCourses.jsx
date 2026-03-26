@@ -1,7 +1,7 @@
 // src/pages/dashboard/MyCourses.jsx
 import { Link } from 'react-router-dom';
 import courses from '../../data/courses';
-import useProgress from '../../hooks/UseProgress';
+import useProgress from '../../hooks/useProgress';
 
 const MyCourses = () => {
   const enrolledIds = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');

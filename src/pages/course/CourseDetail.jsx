@@ -1,7 +1,7 @@
 // src/pages/course/CourseDetail.jsx
 import { useParams, Link } from 'react-router-dom';
 import courses from '../../data/courses';
-import useProgress from '../../hooks/UseProgress';
+import useProgress from '../../hooks/useProgress';
 
 const CourseDetail = () => {
   const { id } = useParams();
