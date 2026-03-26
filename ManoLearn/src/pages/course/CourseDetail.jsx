@@ -1,33 +1,26 @@
 // src/pages/course/CourseDetail.jsx
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
 import courses from '../../data/courses';
-import { useCourse } from '../../store/CourseContext';
-import { useProgress } from '../../hooks/UseProgress';
+import useProgress from '../../hooks/UseProgress';
 
 const CourseDetail = () => {
   const { id } = useParams();
   const course = courses.find(c => c.id === parseInt(id));
-  const { enrollCourse, isEnrolled } = useCourse();
   const { progress } = useProgress(id);
 
-  const [enrolled, setEnrolled] = useState(isEnrolled(parseInt(id)));
+  const enrolledIds = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+  const alreadyEnrolled = enrolledIds.includes(parseInt(id));
 
   const handleEnroll = () => {
-    enrollCourse(parseInt(id));
-    setEnrolled(true);
+    let enrolled = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+    if (!enrolled.includes(parseInt(id))) {
+      enrolled.push(parseInt(id));
+      localStorage.setItem('enrolledCourses', JSON.stringify(enrolled));
+      window.location.reload(); // Instant professional update
+    }
   };
 
-  if (!course) {
-    return (
-      <div className="min-h-[70vh] flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-3xl font-semibold text-gray-900">Course Not Found</h2>
-          <Link to="/courses" className="mt-6 inline-block text-emerald-700 hover:underline">← Back to All Courses</Link>
-        </div>
-      </div>
-    );
-  }
+  if (!course) return <div className="p-10 text-center text-2xl">Course Not Found</div>;
 
   return (
     <div className="bg-gray-50 min-h-screen pb-12">
@@ -40,9 +33,8 @@ const CourseDetail = () => {
             <h1 className="text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-6">
               {course.title}
             </h1>
-            <p className="text-emerald-100 text-xl max-w-lg">{course.description}</p>
+            <p className="text-emerald-100 text-xl">{course.description}</p>
           </div>
-
           <div className="text-center lg:text-right">
             <div className="text-8xl mb-4">{course.image}</div>
             <div className="text-5xl font-bold">Free</div>
@@ -54,8 +46,7 @@ const CourseDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8 bg-white rounded-3xl shadow-sm p-10">
             <h2 className="text-3xl font-semibold mb-8">What you'll learn</h2>
-            <p className="text-gray-700 leading-relaxed text-lg mb-12">{course.description}</p>
-
+            <p className="text-gray-700 text-lg mb-12">{course.description}</p>
             <h2 className="text-3xl font-semibold mb-6">Course Lessons</h2>
             <div className="space-y-4">
               {course.lessons?.map((lesson, index) => (
@@ -73,7 +64,7 @@ const CourseDetail = () => {
                       <p className="text-sm text-gray-500">{lesson.duration}</p>
                     </div>
                   </div>
-                  <span className="text-emerald-600 group-hover:translate-x-1 transition">→</span>
+                  <span className="text-emerald-600">→</span>
                 </Link>
               ))}
             </div>
@@ -85,20 +76,18 @@ const CourseDetail = () => {
                 <div className="text-7xl mb-4">{course.image}</div>
                 <div className="text-4xl font-bold text-emerald-700">Free</div>
               </div>
-
-              {!enrolled ? (
+              {!alreadyEnrolled ? (
                 <button
                   onClick={handleEnroll}
                   className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-4 rounded-2xl text-lg transition"
                 >
-                  Enroll in this Course
+                  Enroll Free
                 </button>
               ) : (
                 <div className="w-full bg-emerald-100 text-emerald-700 font-semibold py-4 rounded-2xl text-center text-lg">
                   ✓ Enrolled
                 </div>
               )}
-
               {progress > 0 && (
                 <div className="mt-8">
                   <div className="flex justify-between text-sm mb-2">
@@ -106,7 +95,7 @@ const CourseDetail = () => {
                     <span className="font-medium">{progress}%</span>
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-600 rounded-full transition-all" style={{ width: `${progress}%` }}></div>
+                    <div className="h-full bg-emerald-600 rounded-full" style={{ width: `${progress}%` }}></div>
                   </div>
                 </div>
               )}
@@ -117,5 +106,4 @@ const CourseDetail = () => {
     </div>
   );
 };
-
 export default CourseDetail;

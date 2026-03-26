@@ -1,16 +1,34 @@
-# React + Vite
+# ManoLearn - Agriculture E-Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, professional React e-learning platform built for agriculture students, farmers, and agribusiness professionals.
 
-Currently, two official plugins are available:
+## Features
+- Clean, premium Tailwind v4 design (professional agriculture theme)
+- Fully working user flow: Login → Browse → Enroll → Watch Lessons → Track Progress
+- Real YouTube video lessons
+- Progress tracking with custom hook
+- Responsive on mobile and desktop
+- Demo login with instant redirect
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Demo Credentials
+- **Email:** `demo@manolearn.com`
+- **Password:** `123456`
 
-## React Compiler
+## Tech Stack
+- React 19 + Vite
+- React Router v6
+- Tailwind CSS v4
+- Custom hooks & Context API
+- LocalStorage for enrollment & progress
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Available Routes
+- `/login` → Login page
+- `/` or `/courses` → Course Catalog
+- `/course/:id` → Course Detail + Enroll
+- `/lesson/:courseId/:lessonId` → Video Lesson Player
+- `/my-courses` → Dashboard with enrolled courses
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Setup
+```bash
+npm install
+npm run dev

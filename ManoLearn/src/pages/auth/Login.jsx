@@ -1,13 +1,21 @@
 // src/pages/auth/Login.jsx
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleDemoLogin = (e) => {
     e.preventDefault();
-    alert(`Welcome back to ManoLearn!\n\nDemo login successful.\nEmail: ${email || 'demo@manolearn.com'}`);
+
+    if (email === 'demo@manolearn.com' && password === '123456') {
+      localStorage.setItem('isLoggedIn', 'true');
+      navigate('/courses');           // This redirects you properly
+    } else {
+      alert('❌ Wrong credentials\n\nUse:\ndemo@manolearn.com\n123456');
+    }
   };
 
   return (
@@ -37,7 +45,6 @@ const Login = () => {
                 required
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
               <input
@@ -49,7 +56,6 @@ const Login = () => {
                 required
               />
             </div>
-
             <button
               type="submit"
               className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-4 rounded-2xl text-lg transition duration-200"
@@ -63,10 +69,6 @@ const Login = () => {
             <span className="font-mono text-emerald-700">demo@manolearn.com</span> / <span className="font-mono text-emerald-700">123456</span>
           </div>
         </div>
-
-        <p className="text-center text-gray-400 text-sm mt-8">
-          Professional Agriculture Education Platform
-        </p>
       </div>
     </div>
   );
